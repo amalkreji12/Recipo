@@ -1,0 +1,10 @@
+:root {
+    --bs-font-sans-serif: 'Rubik', sans-serif;
+}
+
+
+body{
+    background-image: url('/images/body-bg.svg');
+    background-color: rgb(243, 243, 243);
+}
+
