@@ -19,44 +19,20 @@
 
 <catogory>
     <div class="row row-col-2 row-cols-lg-6 g-2 g-lg-3 py-4">
-
-        <a href="#" class="col text-center category__link">
+        {{#each categories}}
+        <a href="/category/{{this.name}}" class="col text-center category__link">
             <div class="category__img shadow">
-                <img src="/images/Food_india.jpg" alt="Indian Food" loading="lazy">
+                <img src="/images/{{this.image}}" alt="Indian Food" loading="lazy">
             </div>
-            <div class="pt-1">Indian</div>
+            <div class="pt-1">{{this.name}}</div>
         </a>
+        {{/each}}
+  
 
-        <a href="#" class="col text-center category__link">
-            <div class="category__img shadow">
-                <img src="/images/Food_india.jpg" alt="Indian Food" loading="lazy">
-            </div>
-            <div class="pt-1">Indian</div>
-        </a>
-
-        <a href="#" class="col text-center category__link">
-            <div class="category__img shadow">
-                <img src="/images/Food_india.jpg" alt="Indian Food" loading="lazy">
-            </div>
-            <div class="pt-1">Indian</div>
-        </a>
-
-        <a href="#" class="col text-center category__link">
-            <div class="category__img shadow">
-                <img src="/images/Food_india.jpg" alt="Indian Food" loading="lazy">
-            </div>
-            <div class="pt-1">Indian</div>
-        </a>
-
-        <a href="#" class="col text-center category__link">
-            <div class="category__img shadow">
-                <img src="/images/Food_india.jpg" alt="Indian Food" loading="lazy">
-            </div>
-            <div class="pt-1">Indian</div>
-        </a>
+        
 
 
-        <a href="#" class="col text-center category__link">
+        <a href="/all-category" class="col text-center category__link">
             <div class="category__img shadow">
                 <img src="/images/Food_india.jpg" alt="Indian Food" loading="lazy">
             </div>

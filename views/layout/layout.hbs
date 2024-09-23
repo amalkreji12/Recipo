@@ -19,7 +19,11 @@
   <div class="container bg-white shadow-lg">
 
     <header>
+      {{#if user}}
       {{>header}}
+      {{else}}
+      {{>admin-header}}
+      {{/if}}
     </header>
 
 
