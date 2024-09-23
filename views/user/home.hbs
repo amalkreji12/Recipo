@@ -19,7 +19,7 @@
 
 <catogory>
     <div class="row row-col-2 row-cols-lg-6 g-2 g-lg-3 py-4">
-        {{#each categories}}
+        {{#each limitCategory}}
         <a href="/category/{{this.name}}" class="col text-center category__link">
             <div class="category__img shadow">
                 <img src="/images/{{this.image}}" alt="Indian Food" loading="lazy">

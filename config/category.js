@@ -12,11 +12,12 @@ async function insertCategories() {
         const categoriesCollection = db.collection('categories');
 
         const categories = [
-            { 'name': 'Indian', 'image': 'indian_category.jpg' },
-            { 'name': 'American', 'image': 'american_category.jpg' },
-            { 'name': 'Italian', 'image': 'italian_category.jpg' },
-            { 'name': 'Mexican', 'image': 'mexican_category.jpg' },
-            { 'name': 'Japanese', 'image': 'japanese_category.jpg' }
+            // { 'name': 'Indian', 'image': 'indian_category.jpg' },
+            // { 'name': 'American', 'image': 'american_category.jpg' },
+            // { 'name': 'Italian', 'image': 'italian_category.jpg' },
+            // { 'name': 'Mexican', 'image': 'mexican_category.jpg' },
+            // { 'name': 'Japanese', 'image': 'japanese_category.jpg' },
+            { 'name': 'European', 'image': 'european_category.jpg' }
         ];
 
         const result = await categoriesCollection.insertMany(categories);

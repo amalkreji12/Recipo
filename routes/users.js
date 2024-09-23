@@ -7,7 +7,8 @@ var router = express.Router();
 router.get('/',  function(req, res, next) {
   categories = recipeHelper.getCategory().then((categories)=>{
     //console.log('Categoty',categories);
-    res.render('user/home',{user:true,categories});
+    const limitCategory = categories.slice(0,5);
+    res.render('user/home',{user:true,limitCategory});
   });
   
 });
