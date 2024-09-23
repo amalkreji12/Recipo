@@ -14,6 +14,11 @@ router.get('/',  function(req, res, next) {
 });
 
 
-
+router.get('/explore-all-category',(req,res)=>{
+  category = recipeHelper.getCategory().then((category)=>{
+    res.render('user/all-category',{user:true,category});
+  })
+  
+})
 
 module.exports = router;
