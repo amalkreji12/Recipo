@@ -5,7 +5,9 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var hbs=require('express-handlebars');
 var db = require('./config/connection');
-const bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
+var fileUpload = require('express-fileupload');
+var multer = require('multer');
 
 //Database connection
 db.connectToDatabase();
@@ -28,6 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 
 
 

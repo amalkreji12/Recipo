@@ -20,7 +20,31 @@ router.post('/add-category',(req,res)=>{
   .catch((err)=>{
     console.log(err);
   })
+});
+
+router.get('/add-recipe',(req,res)=>{
+  res.render('admin/add-recipe');
+});
+
+router.post('/add-recipe',(req,res)=>{
+  //console.log(req.files.image);
+  adminHelper.addRecipe(req.body).then((recipe)=>{
+    let image = req.files.image;
+    let imageName = req.body.name;
+    let id = recipe.insertedId.toString();
+    console.log(id);
+    image.mv('./public/uploads/recipes/'+imageName+'.png',((err,done)=>{
+      if(!err){
+        res.redirect('/admin/add-recipe');
+      }else{
+        console.log(err);
+      }
+    }))
+    
+  })
 })
+
+
 
 
 module.exports = router;

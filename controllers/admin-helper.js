@@ -15,6 +15,16 @@ module.exports = {
                 reject(err); // Reject the promise with the error
             }
         });
+    },
+
+    addRecipe(data){
+        return new Promise(async(resole,reject)=>{
+            const recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).insertOne(data).then((result)=>{
+                console.log('Recipe Added');
+                resole(result);
+            })
+
+        })
     }
     
 
