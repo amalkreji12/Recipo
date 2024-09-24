@@ -74,7 +74,7 @@
         <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
 
             {{#each food.indianlimit}}
-            <a href="/recipe/#" class="col text-center category__link">
+            <a href="/recipe/{{this._id}}" class="col text-center category__link">
                 <div class="category__img latest__img shadow">
                     <img src="/uploads/recipes/{{this.name}}.png" alt="Indian Food" loading="lazy" style="height:100%">
                 </div>
@@ -94,7 +94,7 @@
         <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
 
             {{#each food.americanlimit}}
-            <a href="/recipe/#" class="col text-center category__link">
+            <a href="/recipe/{{this._id}}" class="col text-center category__link">
                 <div class="category__img latest__img shadow">
                     <img src="/uploads/recipes/{{this.name}}.png" alt="Indian Food" loading="lazy" style="height:100%">
                 </div>
@@ -114,7 +114,7 @@
         <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
 
             {{#each food.italianlimit}}
-            <a href="/recipe/#" class="col text-center category__link">
+            <a href="/recipe/{{this._id}}" class="col text-center category__link">
                 <div class="category__img latest__img shadow">
                     <img src="/uploads/recipes/{{this.name}}.png" alt="Indian Food" loading="lazy" style="height:100%">
                 </div>

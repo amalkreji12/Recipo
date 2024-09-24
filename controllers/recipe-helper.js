@@ -48,9 +48,17 @@ module.exports = {
     getRecipeDetails(recipeId){
         return new Promise(async(resolve,reject)=>{
             let recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).findOne({_id:new objectId(recipeId)});
-            console.log(recipe);
+            //console.log(recipe);
             resolve(recipe);
 
+        })
+    },
+
+    getRecipeByCategory(category){
+        return new Promise(async(resolve,reject)=>{
+            let recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).find({category:category}).toArray();
+            //console.log(recipe);
+            resolve(recipe);
         })
     }
 

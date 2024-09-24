@@ -46,10 +46,18 @@ router.get('/recipe/:id',(req,res)=>{
   console.log('Recipe ID :',recipeid);
   recipeHelper.getRecipeDetails(recipeid).then((recipe)=>{
     console.log(recipe);
-    res.render('user/recipe-details',{user:true});
+    res.render('user/recipe-details',{user:true,recipe});
   })
-  
-  
+});
+
+router.get('/category/:id',(req,res)=>{
+  //let categoryid = req.body.categoryid;
+  let categoryid = req.params.id;
+  console.log('Category ID :',categoryid);
+  recipeHelper.getRecipeByCategory(categoryid).then((recipe)=>{
+    //console.log(recipe);
+    res.render('user/category',{user:true,categoryid,recipe});
+  })
 })
 
 
