@@ -14,13 +14,20 @@ router.get('/',  function(req, res, next) {
   Promise.all([
     recipeHelper.getCategory(),
     recipeHelper.getLatest(),
+    recipeHelper.getIndianRecipe(),
+    recipeHelper.getAmericanRecipe(),
+    recipeHelper.getItalianRecipe()
   ])
-  .then(([category,latest])=>{
-    console.log(latest);
-    
+  .then(([category,latest,indian,american,italian])=>{
     const limitCategory = category.slice(0,5);
     const limitlatest = latest.slice(0,5);
-    res.render('user/home',{user:true,limitCategory,limitlatest});
+    const indianlimit = indian.slice(0,5);
+    const americanlimit = american.slice(0,5);
+    const italianlimit = italian.slice(0,5);
+    
+    const food = {limitCategory,limitlatest,indianlimit,americanlimit,italianlimit};
+    
+    res.render('user/home',{user:true,food});
   })
   
   
@@ -33,6 +40,17 @@ router.get('/explore-all-category',(req,res)=>{
   })
   
 });
+
+router.get('/recipe/:id',(req,res)=>{
+  let recipeid = req.params.id;
+  console.log('Recipe ID :',recipeid);
+  recipeHelper.getRecipeDetails(recipeid).then((recipe)=>{
+    console.log(recipe);
+    res.render('user/recipe-details',{user:true});
+  })
+  
+  
+})
 
 
 
