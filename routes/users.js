@@ -58,6 +58,10 @@ router.get('/category/:id',(req,res)=>{
     //console.log(recipe);
     res.render('user/category',{user:true,categoryid,recipe});
   })
+});
+
+router.get('/submit-recipe',(req,res)=>{
+  res.render('user/submit-recipe',{user:true});
 })
 
 
