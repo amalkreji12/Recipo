@@ -1,46 +1,76 @@
-<body>
-    
-    <div class="container mt-5">
-        <h2 class="text-center">Add Recipe</h2>
-        
-        <form action="/admin/add-recipe" method="POST" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="recipeName">Recipe Name</label>
-                <input type="text" class="form-control" id="recipeName" name="name" required>
-            </div>
-
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="ingredients">Ingredients</label>
-                <textarea class="form-control" id="ingredients" name="ingredients" rows="5" required></textarea>
-            </div>
-
-            <div class="form-group">
-                <label for="ingredients">How to Make</label>
-                <textarea class="form-control" id="ingredients" name="making" rows="5" required></textarea>
-            </div>
+<section>
 
 
 
-            <div class="form-group">
-                <label for="email">Your Email</label>
-                <input type="email" class="form-control" id="email" name="email" required>
-            </div>
+    <div class="px-4 py-2 my-5 text-center">
+        <h1 class="display-5 fw-bold">Submit your recipe</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead">Have a favorite recipe? Share it with our community and inspire others to cook your culinary
+                creations!</p>
+        </div>
+        <img src="/images/submit.png" class="d-block mx-auto mb-4  rounded" alt="Submit your recipe" width="460"
+            height="170" loading="lazy">
 
-            <div class="form-group">
-                <label for="category">Category</label>
-                <input type="text" class="form-control" id="category" name="category" required>
-            </div>
-            <div class="form-group">
-                <label for="image">Upload Image</label>
-                <input type="file" class="form-control" id="image" name="image" required>
-            </div>
-            <div class="justify-content-center">
-                <button type="submit" class="btn btn-primary mt-2  mx-auto d-block">Submit Recipe</button>
-            </div>
-        </form>
     </div>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <form action="/submit-recipe" enctype="multipart/form-data" method="POST">
+
+                <div class="row g-3">
+                    {{#if success}}
+                    <div class="alert alert-success" role="alert">
+                        Recipe submitted successfully !
+                    </div>
+                    {{/if}}
+
+                <div class="col-12">
+                    <label for="name" class="form-label">Recipe Name</label>
+                    <input type="text" name="name" id="name" class="form-control">
+                </div>
+
+                <div class="col-12">
+                    <label for="name" class="form-label">Description</label>
+                    <input type="text" name="description" id="description" class="form-control">
+                </div>
+
+                <div class="col-12">
+                    <label for="name" class="form-label">Ingredients</label>
+                    <textarea type="text" name="ingredients" id="ingredients" cols="30" rows="4"
+                        class="form-control"></textarea>
+                </div>
+
+                <div class="col-12">
+                    <label for="name" class="form-label">Making</label>
+                    <textarea type="text" name="making" id="making" cols="30" rows="4" class="form-control"></textarea>
+                </div>
+
+                <div class="col-12">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" name="email" id="description" class="form-control">
+                </div>
+
+                <div class="col-12">
+                    <label for="email" class="form-label">Category</label>
+                    <input type="text" name="category" id="category" class="form-control">
+                </div>
+
+                <div class="col-12">
+                    <label for="email" class="form-label">Image</label>
+                    <input type="file" name="image" class="form-control" accept="image/*">
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary mx-auto d-block">Submit</button>
+                </div>
+
+
+
+        </div>
+        </form>
+
+    </div>
+    </div>
+
+
+</section>

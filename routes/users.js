@@ -71,10 +71,22 @@ router.get('/search-recipe',(req,res)=>{
     res.render('user/search-recipe',{user:true,latest});
   });
   
-})
+});
+
 
 router.get('/submit-recipe',(req,res)=>{
-  res.render('user/submit-recipe',{user:true});
+  res.render('user/submit-recipe',{user:true,success:req.flash('success')});
+});
+
+router.post('/submit-recipe',(req,res)=>{
+  //console.log(req.body);
+  //console.log(req.files.image);
+  recipeHelper.submitRecipe(req.body).then((result)=>{
+    req.flash('success','Recipe submitted successfully');
+
+    res.redirect('/submit-recipe');
+    
+  })
 })
 
 

@@ -8,6 +8,8 @@ var db = require('./config/connection');
 var bodyParser = require('body-parser');
 var fileUpload = require('express-fileupload');
 var multer = require('multer');
+var session = require('express-session');
+var flash = require('express-flash');
 
 //Database connection
 db.connectToDatabase();
@@ -32,6 +34,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
+app.use(session({
+  secret:'key',
+  saveUninitialized: true,
+  resave:false
+}));
+app.use(flash());
 
 
 

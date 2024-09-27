@@ -21,7 +21,7 @@ module.exports = {
         })
     },
 
-    getIndianRecipe(){
+    getIndianRecipe() {
         return new Promise(async (resolve, reject) => {
             let indian = await db.getdb().collection(collections.RECIPE_COLLECTION).find({ 'category': 'Indian' }).toArray();
             //console.log(indian);
@@ -29,7 +29,7 @@ module.exports = {
         });
     },
 
-    getAmericanRecipe(){
+    getAmericanRecipe() {
         return new Promise(async (resolve, reject) => {
             let american = await db.getdb().collection(collections.RECIPE_COLLECTION).find({ 'category': 'American' }).toArray();
             //console.log(american);
@@ -37,7 +37,7 @@ module.exports = {
         });
     },
 
-    getItalianRecipe(){
+    getItalianRecipe() {
         return new Promise(async (resolve, reject) => {
             let italian = await db.getdb().collection(collections.RECIPE_COLLECTION).find({ 'category': 'Italian' }).toArray();
             //console.log(american);
@@ -45,20 +45,30 @@ module.exports = {
         });
     },
 
-    getRecipeDetails(recipeId){
-        return new Promise(async(resolve,reject)=>{
-            let recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).findOne({_id:new objectId(recipeId)});
+    getRecipeDetails(recipeId) {
+        return new Promise(async (resolve, reject) => {
+            let recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).findOne({ _id: new objectId(recipeId) });
             //console.log(recipe);
             resolve(recipe);
 
         })
     },
 
-    getRecipeByCategory(category){
-        return new Promise(async(resolve,reject)=>{
-            let recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).find({category:category}).toArray();
+    getRecipeByCategory(category) {
+        return new Promise(async (resolve, reject) => {
+            let recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).find({ category: category }).toArray();
             //console.log(recipe);
             resolve(recipe);
+        })
+    },
+
+    submitRecipe(recipe) {
+        return new Promise(async (resolve, reject) => {
+            await db.getdb().collection(collections.RECIPE_COLLECTION).insertOne(recipe).then((result) => {
+                recipeSubmitted = true;
+                resolve(result);
+
+            })
         })
     }
 
