@@ -66,6 +66,13 @@ router.get('/explore-latest',(req,res)=>{
   })
 });
 
+router.get('/search-recipe',(req,res)=>{
+  recipeHelper.getLatest().then((latest)=>{
+    res.render('user/search-recipe',{user:true,latest});
+  });
+  
+})
+
 router.get('/submit-recipe',(req,res)=>{
   res.render('user/submit-recipe',{user:true});
 })
