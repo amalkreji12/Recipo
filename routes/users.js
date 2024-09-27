@@ -60,6 +60,12 @@ router.get('/category/:id',(req,res)=>{
   })
 });
 
+router.get('/explore-latest',(req,res)=>{
+  recipeHelper.getLatest().then((latest)=>{
+    res.render('user/explore-latest',{user:true,latest});
+  })
+});
+
 router.get('/submit-recipe',(req,res)=>{
   res.render('user/submit-recipe',{user:true});
 })
