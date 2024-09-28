@@ -96,6 +96,10 @@ router.post('/submit-recipe',(req,res)=>{
   });
 });
 
+router.get('/about',(req,res)=>{
+  res.render('user/about',{user:true})
+})
+
 
 
 module.exports = router;
