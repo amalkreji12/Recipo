@@ -82,12 +82,19 @@ router.post('/submit-recipe',(req,res)=>{
   //console.log(req.body);
   //console.log(req.files.image);
   recipeHelper.submitRecipe(req.body).then((result)=>{
-    req.flash('success','Recipe submitted successfully');
-
-    res.redirect('/submit-recipe');
-    
-  })
-})
+    let image = req.files.image;
+    let imageName = req.body.name;
+    let id = result.insertedId.toString();
+    image.mv('./public/uploads/recipes/'+imageName+'.png',((err,done)=>{
+      if(!err){
+        req.flash('success','Recipe submitted successfully');
+        res.redirect('/submit-recipe');
+      }else{
+        console.log(err);
+      }
+    }));
+  });
+});
 
 
 

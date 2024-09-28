@@ -62,15 +62,27 @@ module.exports = {
         })
     },
 
-    submitRecipe(recipe) {
-        return new Promise(async (resolve, reject) => {
-            await db.getdb().collection(collections.RECIPE_COLLECTION).insertOne(recipe).then((result) => {
-                recipeSubmitted = true;
-                resolve(result);
-
-            })
-        })
-    }
+    submitRecipe(recipe){
+        return new Promise(async(resolve,reject)=>{
+            let category = await db.getdb().collection(collection.CATEGORY_COLLECTION).findOne({'name':recipe.category});
+            if(category){
+                db.getdb().collection(collection.RECIPE_COLLECTION).insertOne(recipe).then((data)=>{
+                    resolve(data);
+                });
+            }else{
+                const newCategory = {
+                    name:recipe.category,
+                    image:recipe.category.toLowerCase() + '_category.jpg'
+                };
+                db.getdb().collection(collection.CATEGORY_COLLECTION).insertOne(newCategory).then((data)=>{
+                    resolve(data);
+                    db.getdb().collection(collection.RECIPE_COLLECTION).insertOne(recipe).then((data)=>{
+                        resolve(data);
+                    });
+                });
+            };
+        });
+    },
 
 
 
