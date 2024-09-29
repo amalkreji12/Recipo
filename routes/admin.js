@@ -4,7 +4,16 @@ var adminHelper = require('../controllers/admin-helper');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.render('admin/admin-home',{admin:true});
+  
+  Promise.all([
+    adminHelper.getTotalRecipes(),
+    adminHelper.getTotalCategory()
+  ])
+  .then(([recipeCount,categoryCount])=>{
+    const total = {recipeCount,categoryCount};
+    res.render('admin/admin-home',{admin:true,total});
+  });
+
 });
 
 router.get('/add-category',(req,res)=>{
@@ -42,7 +51,29 @@ router.post('/add-recipe',(req,res)=>{
     }))
     
   })
-})
+});
+
+router.get('/all-recipes',(req,res)=>{
+  adminHelper.getAllRecipes().then((recipe)=>{
+    res.render('admin/all-recipe',{recipe});
+  })
+  
+
+});
+
+router.get('/all-category',(req,res)=>{
+  adminHelper.getCategory().then((category)=>{
+    res.render('admin/view-category',{category});
+  })
+  
+});
+
+router.get('/delete-category/:id',(req,res)=>{
+  let categoryId = req.params.id;
+  adminHelper.deleteCategory(categoryId).then((result)=>{
+    res.redirect('/admin/all-category');
+  })
+});
 
 
 
