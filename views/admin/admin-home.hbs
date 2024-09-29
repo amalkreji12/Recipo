@@ -86,6 +86,7 @@
                 <h2>Recent Activity</h2>
                 <div class="table-responsive">
                     <table class="table table-striped table-sm">
+                        {{#each total.activity}}
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -96,30 +97,21 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>2024-09-28</td>
-                                <td>Added new recipe: "Chicken Curry"</td>
-                                <td>Admin</td>
-                                <td><span class="badge bg-success">Completed</span></td>
+                                <td>{{this.date}}</td>
+                                <td>{{this.action}}</td>
+                                <td>{{this.user}}</td>
+                                {{!-- <th>
+                                    {{#if this.status=='Completed'}}
+                                    <span class="badge bg-success">{{this.status}}</span>
+                                    {{else}}
+                                    <span class="badge bg-danger">{{this.status}}</span>
+                                    {{/if }}
+                                </th> --}}
+                                <td><span class="badge bg-success">{{this.status}}</span></td>
                             </tr>
-                            <tr>
-                                <td>2024-09-27</td>
-                                <td>Updated category: "Indian"</td>
-                                <td>Admin</td>
-                                <td><span class="badge bg-warning">Pending</span></td>
-                            </tr>
-                            <tr>
-                                <td>2024-09-26</td>
-                                <td>Deleted recipe: "Pasta Alfredo"</td>
-                                <td>Admin</td>
-                                <td><span class="badge bg-danger">Deleted</span></td>
-                            </tr>
-                            <tr>
-                                <td>2024-09-25</td>
-                                <td>Placed new order: #12345</td>
-                                <td>User</td>
-                                <td><span class="badge bg-primary">Processing</span></td>
-                            </tr>
+                            
                         </tbody>
+                        {{/each}}
                     </table>
                 </div>
             </main>

@@ -7,10 +7,11 @@ router.get('/', function(req, res, next) {
   
   Promise.all([
     adminHelper.getTotalRecipes(),
-    adminHelper.getTotalCategory()
+    adminHelper.getTotalCategory(),
+    adminHelper.getRecentActivites()
   ])
-  .then(([recipeCount,categoryCount])=>{
-    const total = {recipeCount,categoryCount};
+  .then(([recipeCount,categoryCount,activity])=>{
+    const total = {recipeCount,categoryCount,activity};
     res.render('admin/admin-home',{admin:true,total});
   });
 
@@ -75,6 +76,22 @@ router.get('/delete-category/:id',(req,res)=>{
   })
 });
 
+router.get('/edit-category/:id',(req,res)=>{
+  let categoryId = req.params.id;
+  adminHelper.getCategoryDetails(categoryId).then((category)=>{
+    //console.log(category);
+    res.render('admin/edit-category',{category});
+  })
+});
+
+router.post('/edit-category/:id',(req,res)=>{
+  let categoryId = req.params.id;
+  adminHelper.updateCategory(categoryId,req.body).then((result)=>{
+    console.log(result);
+    res.redirect('/admin/all-category');
+    
+  })
+})
 
 
 

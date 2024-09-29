@@ -45,6 +45,14 @@ module.exports = {
         })
     },
 
+    getRecentActivites(){
+        return new Promise(async(resolve,reject)=>{
+            await db.getdb().collection(collections.ACTIVITY_COLLECTION).find().toArray().then((activity)=>{
+                resolve(activity);
+            })
+        })
+    },
+
     getCategory(){
         return new Promise(async(resolve,reject)=>{
             await db.getdb().collection(collections.CATEGORY_COLLECTION).find().toArray().then((category)=>{
@@ -58,6 +66,17 @@ module.exports = {
             await db.getdb().collection(collections.CATEGORY_COLLECTION).deleteOne({_id:new objectId(categoryId)}).then((result)=>{
                 console.log(result);
                 resolve(result);
+                if(result.acknowledged){
+                    const activity = {
+                        action :'Deleted Category',
+                        user :'Admin',
+                        status :'Deleted',
+                        date :new Date()
+                    };
+                    db.getdb().collection(collections.ACTIVITY_COLLECTION).insertOne(activity);
+                    console.log('Category Updated');
+                    
+                }
             })
         })
         
@@ -70,8 +89,43 @@ module.exports = {
                 resolve(recipe);
             })
         })
+    },
+
+    getCategoryDetails(categoryId){
+        return new Promise(async(resolve,reject)=>{
+            await db.getdb().collection(collections.CATEGORY_COLLECTION).findOne({_id:new objectId(categoryId)}).then((category)=>{               
+                resolve(category);
+            })
+        })
+    },
+
+    updateCategory(categoryId,categoryDetails){
+        return new Promise(async(resolve,reject)=>{
+            await db.getdb().collection(collections.CATEGORY_COLLECTION).updateOne({_id:new objectId(categoryId)},{
+                $set:{
+                    name:categoryDetails.name,
+                    image:categoryDetails.image
+                }
+            }).then((result)=>{
+                resolve(result);
+                if(result.acknowledged){
+                    const activity = {
+                        action :'Updated Category',
+                        user :'Admin',
+                        status :'Completed',
+                        date :new Date()
+                    };
+                    db.getdb().collection(collections.ACTIVITY_COLLECTION).insertOne(activity);
+                    console.log('Category Updated');
+                    
+                }
+            })
+            
+        })
+
     }
     
+
 
 
 
