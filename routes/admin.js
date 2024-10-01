@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
     adminHelper.getRecentActivites()
   ])
   .then(([recipeCount,categoryCount,activity])=>{
-    const limitActivity = activity.reverse().slice(0,5);
+    const limitActivity = activity.reverse().slice(0,4);
 
     const total = {recipeCount,categoryCount,limitActivity};
     res.render('admin/admin-home',{admin:true,total});
@@ -126,6 +126,23 @@ router.post('/update-recipe/:id',(req,res)=>{
     }
   })
 
+});
+
+
+router.get('/activites',(req,res)=>{
+  adminHelper.getRecentActivites().then((activity)=>{
+    const activityRecent = activity.reverse()
+    res.render('admin/activites',{activityRecent})
+  })
+  
+});
+
+router.get('/recipe/:id',(req,res)=>{
+  let recipeId = req.params.id;
+  adminHelper.getRecipeDetails(recipeId).then((recipe)=>{
+    res.render('admin/view-recipe',{recipe});
+  })
+  
 })
 
 
