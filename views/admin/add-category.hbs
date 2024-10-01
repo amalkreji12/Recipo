@@ -1,10 +1,15 @@
 <h1>Add Category</h1>
+{{#if success}}
+<div class="alert alert-success" role="alert">
+  Category added successfully !
+</div>
+{{/if}}
 
 <form action="/admin/add-category" method="POST">
 
   <div class="form-group">
     <label>Category Name</label>
-    <input type="text" class="form-control"  name="name">
+    <input type="text" class="form-control" name="name">
 
     <label>Image Name</label>
     <input type="text" class="form-control" name="image">

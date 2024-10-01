@@ -5,6 +5,12 @@
         </div>
     </div>
 
+    {{#if deleteError}}
+    <div class="alert alert-danger" id='success-alert' role="alert">
+        <p>Category deleted successfully !</p>
+    </div>
+    {{/if}}
+
     <div class="row">
         <!-- Example category card -->
         {{#each category}}
@@ -26,3 +32,12 @@
         {{/each}}
     </div>
 </div>
+
+<script>
+    setTimeout(function(){
+        var alertElement = document.getElementById('success-alert');
+        if(alertElement){
+            alertElement.style.display = 'none';
+        }
+    },2000);
+</script>

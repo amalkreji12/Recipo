@@ -1,0 +1,51 @@
+<!-- edit-recipe.hbs -->
+<div class="container mt-5">
+    <h2 class="text-center">Edit Recipe</h2>
+    
+    <form action="/admin/update-recipe/{{recipe._id}}" method="POST" enctype="multipart/form-data">
+        <!-- Recipe Name -->
+        <div class="mb-3">
+            <label for="name" class="form-label">Recipe Name</label>
+            <input type="text" class="form-control"  name="name" value="{{recipe.name}}">
+        </div>
+
+        <!-- Recipe Category -->
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <input type="text" class="form-control"  name="category" value="{{recipe.category}}" >
+        </div>
+
+        <!-- Recipe Ingredients -->
+        <div class="mb-3">
+            <label for="ingredients" class="form-label">Ingredients</label>
+            <textarea class="form-control"  name="ingredients" rows="5" required>{{recipe.ingredients}}</textarea>
+            <small class="form-text text-muted">Enter each ingredient separated by a comma.</small>
+        </div>
+
+        <!-- Recipe Steps -->
+        <div class="mb-3">
+            <label for="steps" class="form-label">Steps</label>
+            <textarea class="form-control"  name="steps" rows="5" required>{{recipe.making}}</textarea>
+            <small class="form-text text-muted">Enter each step on a new line.</small>
+        </div>
+
+        <!-- Recipe Image -->
+        <div class="mb-3">
+            <label for="image" class="form-label">Recipe Image</label>
+            <input type="file" class="form-control"  name="image">
+            <small class="form-text text-muted">Upload a new image if you want to replace the current one.</small>
+        </div>
+
+        <!-- Existing Image -->
+        <div class="mb-3">
+            <label class="form-label">Current Image:</label>
+            <div>
+                <img src="/uploads/recipes/{{recipe.name}}.png" alt="{{this.name}}" class="img-fluid img-thumbnail" width="200">
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-success">Update Recipe</button>
+        <a href="/admin/recipes" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
