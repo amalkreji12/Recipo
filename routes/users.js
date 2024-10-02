@@ -5,12 +5,6 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/',  function(req, res, next) {
-  // categories = recipeHelper.getCategory().then((categories)=>{
-  //   //console.log('Categoty',categories);
-  //   const limitCategory = categories.slice(0,5);
-  //   res.render('user/home',{user:true,limitCategory});
-  // });
-
   Promise.all([
     recipeHelper.getCategory(),
     recipeHelper.getLatest(),
@@ -28,10 +22,16 @@ router.get('/',  function(req, res, next) {
     const food = {limitCategory,limitlatest,indianlimit,americanlimit,italianlimit};
     
     res.render('user/home',{user:true,food});
-  })
-  
-  
+  })  
 });
+
+router.get('/login',(req,res)=>{
+  res.render('user/login',{user:true});
+});
+
+router.get('/signup',(req,res)=>{
+  res.render('user/signup',{user:true});
+})
 
 
 router.get('/explore-all-category',(req,res)=>{

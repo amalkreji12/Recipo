@@ -38,3 +38,35 @@ body{
 .latest__img{
     height: 330px;
 }
+
+.login_btn,.signup_btn{
+    padding: 10px 25px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.login_btn{
+    background-color: white;
+    border: 2px solid #0d6efd;
+    color: #0d6efd;
+}
+
+.login-btn:hover {
+    background-color: #0d6efd;
+    color: white;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
+}
+
+.signup-btn {
+    background-color: #0d6efd;
+    border: none;
+    color: white;
+}
+
+.signup-btn:hover {
+    background-color: #004fbb;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 79, 187, 0.3);
+}

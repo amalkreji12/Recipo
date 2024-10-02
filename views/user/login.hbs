@@ -1,0 +1,112 @@
+<style>
+    /* Custom background gradient */
+    .gradient-custom {
+        background: linear-gradient(135deg, rgba(29, 78, 216, 0.8), rgba(255, 187, 255, 0.8), rgba(255, 244, 189, 0.8));
+        min-height: 100vh;
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Adjusted card size and style */
+    .card {
+    background-color: rgba(230, 220, 255, 0.9); /* Light lavender with slight transparency */
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+    /* Form label and input styling */
+    .form-control, .form-control-lg {
+        border-radius: 0.75rem;
+        padding: 12px;
+    }
+
+    .form-label {
+        color: #343a40; /* Label color */
+    }
+
+    /* Text color for login messages */
+    .text-muted, .text-black {
+        color: black; /* Change text color to black */
+    }
+
+    /* Button styling */
+    .btn-custom {
+        background-color: #007bff; /* Primary button color */
+        color: white;
+        border-radius: 30px;
+        padding: 10px 30px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+    }
+
+    /* Social icons styling */
+    .social-icons a {
+        color: #343a40; /* Adjusted social icon color */
+        margin: 0 15px;
+        transition: color 0.3s ease;
+    }
+
+    .social-icons a:hover {
+        color: #60a5fa;
+    }
+</style>
+
+
+
+
+
+
+
+<body>
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card" style="border-radius: 1rem; background-color: rgba(240, 240, 240, 0.9);">
+          <div class="card-body p-4 text-center">
+
+            <div class="mb-md-4 mt-md-3 pb-4">
+              <h2 class="fw-bold mb-2 text-uppercase" style="color: #343a40;">Login</h2>
+              <p class="text-black mb-4">Please enter your login and password!</p> <!-- Change to black -->
+
+              <div class="form-outline mb-3">
+                <input type="email" id="typeEmailX" class="form-control form-control-lg" placeholder="Enter your email" required />
+                <label class="form-label" for="typeEmailX">Email</label>
+              </div>
+
+              <div class="form-outline mb-3">
+                <input type="password" id="typePasswordX" class="form-control form-control-lg" placeholder="Enter your password" required />
+                <label class="form-label" for="typePasswordX">Password</label>
+              </div>
+
+              <p class="small mb-4 pb-lg-1"><a class="text-black" href="#!">Forgot password?</a></p> <!-- Change to black -->
+
+              <button class="btn btn-custom btn-lg px-5" type="submit">Login</button>
+
+              <div class="d-flex justify-content-center text-center mt-3 pt-1 social-icons">
+                <a href="#!"><i class="fab fa-facebook-f fa-lg"></i></a>
+                <a href="#!"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
+                <a href="#!"><i class="fab fa-google fa-lg"></i></a>
+              </div>
+
+            </div>
+
+            <div>
+              <p class="mb-0">Don't have an account? <a href="/register" class="text-black fw-bold">Sign Up</a></p> <!-- Change to black -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
