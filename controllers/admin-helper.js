@@ -204,6 +204,13 @@ module.exports = {
         });
     },
 
+    getRecipeByCategory(categoryName) {
+        return new Promise(async (resolve, reject) => {
+            let recipes = await db.getdb().collection(collections.RECIPE_COLLECTION).find({ category: categoryName }).toArray();
+            resolve(recipes);
+        })
+    },
+
 
 
 

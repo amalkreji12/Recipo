@@ -73,6 +73,13 @@ router.get('/all-category',(req,res)=>{
   })
 });
 
+router.get('/view-recipe/:id',(req,res)=>{
+  let categoryName=req.params.id;
+  adminHelper.getRecipeByCategory(categoryName).then((recipe)=>{
+    res.render('admin/all-recipe',{recipe});
+  })
+})
+
 router.get('/delete-category/:id',(req,res)=>{
   let categoryId = req.params.id;
   adminHelper.deleteCategory(categoryId).then((result)=>{
@@ -141,9 +148,8 @@ router.get('/recipe/:id',(req,res)=>{
   let recipeId = req.params.id;
   adminHelper.getRecipeDetails(recipeId).then((recipe)=>{
     res.render('admin/view-recipe',{recipe});
-  })
-  
-})
+  });
+});
 
 
 
