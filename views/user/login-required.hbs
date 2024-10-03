@@ -1,0 +1,45 @@
+<style>
+    /* CSS for the blurred background */
+.blur-background {
+  background-color: rgba(255, 255, 255, 0.3); /* Light color with transparency */
+  height: 100vh; /* Full height */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  filter: blur(10px); /* Apply blur effect */
+  z-index: -1; /* Behind the content */
+}
+
+.overlay {
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white overlay */
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  z-index: 1; /* Ensure it's on top of the blurred background */
+}
+
+.login-required-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+h2, p {
+  margin: 10px 0;
+}
+
+</style>
+
+<div class="login-required-page">
+  <div class="blur-background"></div>
+  <div class="overlay">
+    <h2>Login Required</h2>
+    <p>You need to log in to submit a recipe.</p>
+    <a href="/login" class="btn btn-primary">Login</a>
+  </div>
+</div>

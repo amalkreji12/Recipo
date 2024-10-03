@@ -4,7 +4,18 @@ var router = express.Router();
 
 
 /* GET home page. */
-router.get('/',  function(req, res, next) {
+const verifyLogin = (req,res,next)=>{
+  if( req.session.user && req.session.user.loggedIn){
+    next();
+  }else{
+    res.render('user/login-required');
+  }
+};
+
+router.get('/',  function(req, res,next) {
+  let user = req.session.user;
+  console.log('User :',user);
+  
   Promise.all([
     recipeHelper.getCategory(),
     recipeHelper.getLatest(),
@@ -21,61 +32,93 @@ router.get('/',  function(req, res, next) {
     
     const food = {limitCategory,limitlatest,indianlimit,americanlimit,italianlimit};
     
-    res.render('user/home',{user:true,food});
+    res.render('user/home',{user,food});
   })  
 });
 
-router.get('/login',(req,res)=>{
-  res.render('user/login',{user:true});
-});
-
 router.get('/signup',(req,res)=>{
-  res.render('user/signup',{user:true});
+  res.render('user/signup',{user:true,isLoginSignupPage: true});
+})
+
+router.post('/signup',(req,res)=>{
+  recipeHelper.doSignUp(req.body).then((userData)=>{
+    req.session.user = userData;
+    req.session.user.loggedIn = true;
+    res.redirect('/')
+  })
 })
 
 
-router.get('/explore-all-category',(req,res)=>{
-  category = recipeHelper.getCategory().then((category)=>{
-    res.render('user/all-category',{user:true,category});
+
+
+router.get('/login',(req,res)=>{
+  res.render('user/login',{user:true,isLoginSignupPage: true});
+});
+
+router.post('/login',(req,res)=>{
+  recipeHelper.doLogin(req.body).then((response)=>{
+    if(response.status){
+      req.session.user = response.user;
+      req.session.user.loggedIn = true;
+      res.redirect('/');
+    }else{
+      res.redirect('/login');
+    }
   })
-  
+})
+
+router.get('/logout',(req,res)=>{
+  req.session.destroy();
+  res.redirect('/')
+})
+
+router.get('/explore-all-category',(req,res)=>{
+  let user = req.session.user;
+  category = recipeHelper.getCategory().then((category)=>{
+    res.render('user/all-category',{user,category});
+  }) 
 });
 
 router.get('/recipe/:id',(req,res)=>{
+  let user = req.session.user;
   let recipeid = req.params.id;
   console.log('Recipe ID :',recipeid);
   recipeHelper.getRecipeDetails(recipeid).then((recipe)=>{
-    console.log(recipe);
-    res.render('user/recipe-details',{user:true,recipe});
+    //console.log(recipe);
+    res.render('user/recipe-details',{user,recipe});
   })
 });
 
 router.get('/category/:id',(req,res)=>{
+  let user = req.session.user;
   //let categoryid = req.body.categoryid;
   let categoryid = req.params.id;
   console.log('Category ID :',categoryid);
   recipeHelper.getRecipeByCategory(categoryid).then((recipe)=>{
     //console.log(recipe);
-    res.render('user/category',{user:true,categoryid,recipe});
+    res.render('user/category',{user,categoryid,recipe});
   })
 });
 
 router.get('/explore-latest',(req,res)=>{
+  let user = req.session.user;
   recipeHelper.getLatest().then((latest)=>{
-    res.render('user/explore-latest',{user:true,latest});
+    res.render('user/explore-latest',{user,latest});
   })
 });
 
 router.get('/search-recipe',(req,res)=>{
+  let user = req.session.user;
   recipeHelper.getLatest().then((latest)=>{
-    res.render('user/search-recipe',{user:true,latest});
+    res.render('user/search-recipe',{user,latest});
   });
   
 });
 
 
-router.get('/submit-recipe',(req,res)=>{
-  res.render('user/submit-recipe',{user:true,success:req.flash('success')});
+router.get('/submit-recipe',verifyLogin,(req,res)=>{
+  let user = req.session.user;
+  res.render('user/submit-recipe',{user,success:req.flash('success')});
 });
 
 router.post('/submit-recipe',(req,res)=>{
@@ -97,11 +140,13 @@ router.post('/submit-recipe',(req,res)=>{
 });
 
 router.get('/about',(req,res)=>{
-  res.render('user/about',{user:true})
+  let user = req.session.user;
+  res.render('user/about',{user})
 });
 
 router.get('/contact',(req,res)=>{
-  res.render('user/contact',{user:true})
+  let user = req.session.user;
+  res.render('user/contact',{user})
 })
 
 
