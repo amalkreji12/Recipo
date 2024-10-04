@@ -9,6 +9,7 @@ module.exports = {
     doSignUp(userData){
         return new Promise(async(resolve,reject)=>{
             userData.password = await bcrypt.hash(userData.password,10);
+            userData.createdAt = new Date();
             db.getdb().collection(collections.USER_COLLECTION).insertOne(userData).then((user)=>{
                 resolve(user);
             })
@@ -98,8 +99,9 @@ module.exports = {
         })
     },
 
-    submitRecipe(recipe){
+    submitRecipe(recipe,userId){
         return new Promise(async(resolve,reject)=>{
+            recipe.userId = new objectId(userId);
             let category = await db.getdb().collection(collection.CATEGORY_COLLECTION).findOne({'name':recipe.category});
             if(category){
                 db.getdb().collection(collection.RECIPE_COLLECTION).insertOne(recipe).then((data)=>{
@@ -119,6 +121,44 @@ module.exports = {
             };
         });
     },
+
+    getUserDetails(userId){
+        return new Promise(async(resolve,reject)=>{
+            await db.getdb().collection(collections.USER_COLLECTION).findOne({_id:new objectId(userId)}).then((user)=>{
+                resolve(user);
+            });
+            
+        })
+    },
+
+    getUserUploadedRecipe(userId){
+        return new Promise(async(resolve,reject)=>{
+            await db.getdb().collection(collections.RECIPE_COLLECTION).find({userId:new objectId(userId)}).toArray().then((recipes)=>{
+                resolve(recipes);
+            })
+        })
+    },
+
+    updateRecipeByUser(userId,recipeDetails){
+        return new Promise(async(resolve,reject)=>{
+            await db.getdb().collection(collections.RECIPE_COLLECTION).updateOne({_id:new objectId(userId)},{
+                $set:{
+                    name:recipeDetails.name,
+                    description:recipeDetails.description,
+                    ingredients:recipeDetails.ingredients,
+                    making:recipeDetails.making,
+                    email:recipeDetails.email,
+                    category:recipeDetails.category
+                }
+            }).then((result)=>{
+                resolve(result);
+            })
+        })
+    },
+
+    deleteRecipeByUser(recipeId){
+        return new Promise()
+    }
 
 
 

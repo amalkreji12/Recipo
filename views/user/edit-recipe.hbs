@@ -1,0 +1,38 @@
+<div class="container mt-5">
+    <h3 class="text-center">Edit Recipe</h3>
+    
+    <form id="edit-recipe-form" action="/update-recipe/{{recipe._id}}" method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label">Recipe Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{recipe.name}}" required>
+        </div>
+        
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required>{{recipe.description}}</textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="ingredients" class="form-label">Ingredients</label>
+            <textarea class="form-control" id="ingredients" name="ingredients" rows="3" required>{{recipe.ingredients}}</textarea>
+        </div>
+        
+        <div class="mb-3">
+            <label for="making" class="form-label">Making Instructions</label>
+            <textarea class="form-control" id="making" name="making" rows="4" required>{{recipe.making}}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="making" class="form-label">Email</label>
+            <input type="text" class="form-control" id="category" name="email" value="{{recipe.email}}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label">Category</label>
+            <input type="text" class="form-control" id="category" name="category" value="{{recipe.category}}" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Update Recipe</button>
+        <a href="/profile" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

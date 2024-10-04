@@ -14,7 +14,6 @@ const verifyLogin = (req,res,next)=>{
 
 router.get('/',  function(req, res,next) {
   let user = req.session.user;
-  console.log('User :',user);
   
   Promise.all([
     recipeHelper.getCategory(),
@@ -124,7 +123,8 @@ router.get('/submit-recipe',verifyLogin,(req,res)=>{
 router.post('/submit-recipe',(req,res)=>{
   //console.log(req.body);
   //console.log(req.files.image);
-  recipeHelper.submitRecipe(req.body).then((result)=>{
+  let userId = req.session.user._id;
+  recipeHelper.submitRecipe(req.body,userId).then((result)=>{
     let image = req.files.image;
     let imageName = req.body.name;
     let id = result.insertedId.toString();
@@ -147,8 +147,38 @@ router.get('/about',(req,res)=>{
 router.get('/contact',(req,res)=>{
   let user = req.session.user;
   res.render('user/contact',{user})
+});
+
+router.get('/profile',verifyLogin,async(req,res)=>{
+  let user = req.session.user;  
+  let userId = req.session.user._id;
+  const deleteMessage = req.flash('deleteUpdate')[0] || null;
+  const updateMessage = req.flash('successUpdate')[0] || null;
+  recipeHelper.getUserDetails(userId).then((userDetails)=>{
+    recipeHelper.getUserUploadedRecipe(userId).then((recipes)=>{
+      res.render('user/profile',{user,userDetails,recipes,deleteMessage,updateMessage});
+    });
+  });
+});
+
+router.get('/edit-recipe/:id',verifyLogin,(req,res)=>{
+  let user = req.session.user;
+  let recipeId = req.params.id;
+  recipeHelper.getRecipeDetails(recipeId).then((recipe)=>{
+    res.render('user/edit-recipe',{user,recipe})
+  })
+});
+
+router.post('/update-recipe/:id',(req,res)=>{
+  let recipeId = req.params.id;
+  recipeHelper.updateRecipeByUser(recipeId,req.body).then((result)=>{
+    req.flash('successUpdate','Recipe updated successfully');
+    res.redirect('/profile');
+  })
+});
+
+router.get('/delete-recipe/:id',(req,res)=>{
+  let recipeId = req.params.id;
 })
-
-
 
 module.exports = router;
