@@ -5,6 +5,7 @@
 
 body{
     background-image: url('/images/body-bg.svg');
+    /* background-image: url('/images/bg3.png'); */
     background-color: rgb(243, 243, 243);
 }
 

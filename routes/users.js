@@ -152,9 +152,17 @@ router.get('/contact',(req,res)=>{
 router.get('/profile',verifyLogin,async(req,res)=>{
   let user = req.session.user;  
   let userId = req.session.user._id;
+
   const deleteMessage = req.flash('deleteUpdate')[0] || null;
   const updateMessage = req.flash('successUpdate')[0] || null;
+
   recipeHelper.getUserDetails(userId).then((userDetails)=>{
+    const dateFormatted = new Date(userDetails.createdAt).toLocaleDateString('en-US',{
+      year:'numeric',
+      month:'long',
+      day:'numeric',
+    });
+    userDetails.createdAt = dateFormatted;
     recipeHelper.getUserUploadedRecipe(userId).then((recipes)=>{
       res.render('user/profile',{user,userDetails,recipes,deleteMessage,updateMessage});
     });
@@ -179,6 +187,10 @@ router.post('/update-recipe/:id',(req,res)=>{
 
 router.get('/delete-recipe/:id',(req,res)=>{
   let recipeId = req.params.id;
+  recipeHelper.deleteRecipeByUser(recipeId).then((result)=>{
+    req.flash('deleteUpdate','Recipe deleted successfully');
+    res.redirect('/profile');
+  })
 })
 
 module.exports = router;

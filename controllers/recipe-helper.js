@@ -157,7 +157,11 @@ module.exports = {
     },
 
     deleteRecipeByUser(recipeId){
-        return new Promise()
+        return new Promise(async(resolve,reject)=>{
+            await db.getdb().collection(collections.RECIPE_COLLECTION).deleteOne({_id:new objectId(recipeId)}).then((result)=>{
+                resolve(result);
+            })
+        })
     }
 
 
