@@ -8,19 +8,21 @@ router.get('/', function(req, res, next) {
   Promise.all([
     adminHelper.getTotalRecipes(),
     adminHelper.getTotalCategory(),
-    adminHelper.getRecentActivites()
+    adminHelper.getRecentActivites(),
+    adminHelper.getAllUsers()
   ])
-  .then(([recipeCount,categoryCount,activity])=>{
+  .then(([recipeCount,categoryCount,activity,users])=>{
     const limitActivity = activity.reverse().slice(0,4);
+    const userCount = users.length;
 
-    const total = {recipeCount,categoryCount,limitActivity};
+    const total = {recipeCount,categoryCount,limitActivity,userCount};
     res.render('admin/admin-home',{admin:true,total});
   });
 
 });
 
 router.get('/add-category',(req,res)=>{
-  res.render('admin/add-category',{success:req.flash('success')});
+  res.render('admin/add-category',{admin:true,success:req.flash('success')});
 });
 
 router.post('/add-category',(req,res)=>{
@@ -36,7 +38,7 @@ router.post('/add-category',(req,res)=>{
 });
 
 router.get('/add-recipe',(req,res)=>{
-  res.render('admin/add-recipe',{success:req.flash('success')});
+  res.render('admin/add-recipe',{admin:true,success:req.flash('success')});
 });
 
 router.post('/add-recipe',(req,res)=>{
@@ -63,20 +65,20 @@ router.get('/all-recipes',(req,res)=>{
     const deleteMessage = req.flash('deleteUpdate')[0] || null;
     const updateMessage = req.flash('successUpdate')[0] || null;
 
-    res.render('admin/all-recipe',{recipe,deleteMessage,updateMessage});
+    res.render('admin/all-recipe',{admin:true,recipe,deleteMessage,updateMessage});
   })
 });
 
 router.get('/all-category',(req,res)=>{
   adminHelper.getCategory().then((category)=>{
-    res.render('admin/view-category',{category,deleteError:req.flash('deleteError')});
+    res.render('admin/view-category',{admin:true,category,deleteError:req.flash('deleteError')});
   })
 });
 
 router.get('/view-recipe/:id',(req,res)=>{
   let categoryName=req.params.id;
   adminHelper.getRecipeByCategory(categoryName).then((recipe)=>{
-    res.render('admin/all-recipe',{recipe});
+    res.render('admin/all-recipe',{admin:true,recipe});
   })
 })
 
@@ -92,7 +94,7 @@ router.get('/edit-category/:id',(req,res)=>{
   let categoryId = req.params.id;
   adminHelper.getCategoryDetails(categoryId).then((category)=>{
     //console.log(category);
-    res.render('admin/edit-category',{category});
+    res.render('admin/edit-category',{admin:true,category});
   })
 });
 
@@ -117,7 +119,7 @@ router.get('/edit-recipe/:id',(req,res)=>{
   let recipeId = req.params.id;
   adminHelper.getRecipeDetails(recipeId).then((recipe)=>{
     console.log(recipe);
-    res.render('admin/edit-recipe',{recipe});
+    res.render('admin/edit-recipe',{admin:true,recipe});
   })
 });
 
@@ -139,7 +141,7 @@ router.post('/update-recipe/:id',(req,res)=>{
 router.get('/activites',(req,res)=>{
   adminHelper.getRecentActivites().then((activity)=>{
     const activityRecent = activity.reverse()
-    res.render('admin/activites',{activityRecent})
+    res.render('admin/activites',{admin:true,activityRecent})
   })
   
 });
@@ -147,10 +149,15 @@ router.get('/activites',(req,res)=>{
 router.get('/recipe/:id',(req,res)=>{
   let recipeId = req.params.id;
   adminHelper.getRecipeDetails(recipeId).then((recipe)=>{
-    res.render('admin/view-recipe',{recipe});
+    res.render('admin/view-recipe',{admin:true,recipe});
   });
 });
 
-
+router.get('/all-users',(req,res)=>{
+  adminHelper.getAllUsers().then((users)=>{
+    res.render('admin/all-users',{admin:true,users})
+  })
+  
+})
 
 module.exports = router;

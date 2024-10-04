@@ -85,12 +85,14 @@ module.exports = {
 
     deleteCategory(categoryId) {
         return new Promise(async (resolve, reject) => {
+            const category =await db.getdb().collection(collections.CATEGORY_COLLECTION).findOne({_id:new objectId(categoryId)});
+
             await db.getdb().collection(collections.CATEGORY_COLLECTION).deleteOne({ _id: new objectId(categoryId) }).then((result) => {
                 console.log(result);
                 resolve(result);
                 if (result.acknowledged) {
                     const activity = {
-                        action: 'Deleted Category',
+                        action: 'Category Deleted :'+category.name,   
                         user: 'Admin',
                         status: 'Deleted',
                         date: new Date()
@@ -132,7 +134,7 @@ module.exports = {
                 resolve(result);
                 if (result.acknowledged) {
                     const activity = {
-                        action: 'Updated Category',
+                        action: 'Category Updated :'+categoryDetails.name,
                         user: 'Admin',
                         status: 'Completed',
                         date: new Date()
@@ -149,13 +151,15 @@ module.exports = {
 
     deleteRecipe(recipeId) {
         return new Promise(async (resolve, reject) => {
+            const recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).findOne({_id:new objectId(recipeId)});
+
             await db.getdb().collection(collections.RECIPE_COLLECTION).deleteOne({ _id: new objectId(recipeId) }).then((result) => {
                 resolve(result);
                 if (result.acknowledged) {
                     const activity = {
-                        action: 'Deleted Recipe',
+                        action: 'Recipe Deleted :'+recipe.name,
                         user: 'Admin',
-                        status: 'Completed',
+                        status: 'Deleted',
                         date: new Date()
                     };
                     db.getdb().collection(collections.ACTIVITY_COLLECTION).insertOne(activity);
@@ -208,6 +212,14 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let recipes = await db.getdb().collection(collections.RECIPE_COLLECTION).find({ category: categoryName }).toArray();
             resolve(recipes);
+        })
+    },
+
+    getAllUsers(){
+        return new Promise(async(resolve,reject)=>{
+            db.getdb().collection(collections.USER_COLLECTION).find().toArray().then((users)=>{
+                resolve(users);
+            })
         })
     },
 
