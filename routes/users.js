@@ -155,6 +155,7 @@ router.get('/profile',verifyLogin,async(req,res)=>{
 
   const deleteMessage = req.flash('deleteUpdate')[0] || null;
   const updateMessage = req.flash('successUpdate')[0] || null;
+  const passwordUpdateMessage = req.flash('Passwordsuccess')[0] || null;
 
   recipeHelper.getUserDetails(userId).then((userDetails)=>{
     const dateFormatted = new Date(userDetails.createdAt).toLocaleDateString('en-US',{
@@ -164,7 +165,7 @@ router.get('/profile',verifyLogin,async(req,res)=>{
     });
     userDetails.createdAt = dateFormatted;
     recipeHelper.getUserUploadedRecipe(userId).then((recipes)=>{
-      res.render('user/profile',{user,userDetails,recipes,deleteMessage,updateMessage});
+      res.render('user/profile',{user,userDetails,recipes,deleteMessage,updateMessage,passwordUpdateMessage});
     });
   });
 });
@@ -191,6 +192,29 @@ router.get('/delete-recipe/:id',(req,res)=>{
     req.flash('deleteUpdate','Recipe deleted successfully');
     res.redirect('/profile');
   })
+});
+
+router.get('/change-password',verifyLogin,(req,res)=>{
+  let user = req.session.user;
+  res.render('user/change-password',{'passwordError':req.session.passwordError,user})
+  req.session.passwordError = false;
 })
+
+router.post('/change-password',(req,res)=>{
+  let userId = req.session.user._id;
+  recipeHelper.changePassword(userId,req.body).then((result)=>{
+    if(result.status){
+      console.log(result);
+      req.flash('Passwordsuccess','Password changed successfully');
+      res.redirect('/profile');
+    }else{
+      req.session.passwordError = 'Old password is incorrect';
+      res.redirect('/change-password');
+    }
+    
+    
+  })
+})
+
 
 module.exports = router;

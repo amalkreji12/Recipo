@@ -3,6 +3,7 @@ var collection = require('../config/collections');
 const collections = require('../config/collections');
 var objectId = require("mongodb").ObjectId;
 var bcrypt = require('bcrypt');
+const { reject } = require('bcrypt/promises');
 
 module.exports = {
 
@@ -162,7 +163,36 @@ module.exports = {
                 resolve(result);
             })
         })
-    }
+    },
+
+    changePassword(userId,password){
+        return new Promise(async(resolve,reject)=>{
+            password.new_password =await bcrypt.hash(password.new_password,10);
+            let user = await db.getdb().collection(collections.USER_COLLECTION).findOne({_id:new objectId(userId)});
+            if(user){
+                bcrypt.compare(password.current_password,user.password).then((status)=>{
+                    if(status){
+                        db.getdb().collection(collections.USER_COLLECTION).updateOne({_id:new objectId(userId)},{
+                            $set:{
+                                password:password.new_password,
+                                confirm_password:password.confirm_password,
+                                updatedAt:new Date()
+                            }
+                        }).then((result)=>{
+                            result.status = true;
+                            resolve(result);
+                        })
+                    }else{
+                        resolve({status:false});
+                        console.log('Wrong Password');  
+                    }
+                })
+            }else{
+                resolve({status:false});
+                console.log('User Not Found');
+            }
+        })
+    },
 
 
 

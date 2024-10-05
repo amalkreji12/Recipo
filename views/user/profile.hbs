@@ -51,6 +51,12 @@
   </div>
   {{/if}}
 
+  {{#if passwordUpdateMessage}}
+  <div class="alert alert-success mt-2" id='success-alert' role="alert">
+    {{passwordUpdateMessage}}
+  </div>
+  {{/if}}
+
   <!-- Profile Information Section -->
   <div class="container profile-info">
     <div class="row justify-content-center">
@@ -107,7 +113,7 @@
           <div class="card-body">
             <h4>Account Management</h4>
             <a href="/logout" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            <a href="#" class="btn btn-warning"><i class="fas fa-key"></i> Change Password</a>
+            <a href="/change-password" class="btn btn-warning"><i class="fas fa-key"></i> Change Password</a>
           </div>
         </div>
       </div>
@@ -115,5 +121,5 @@
   </div>
 
   <script>
-    hideAlert('success-alert',2000)
+    hideAlert('success-alert',3000)
   </script>
