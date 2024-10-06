@@ -103,6 +103,7 @@ module.exports = {
     submitRecipe(recipe,userId){
         return new Promise(async(resolve,reject)=>{
             recipe.userId = new objectId(userId);
+            recipe.createdAt = new Date();
             let category = await db.getdb().collection(collection.CATEGORY_COLLECTION).findOne({'name':recipe.category});
             if(category){
                 db.getdb().collection(collection.RECIPE_COLLECTION).insertOne(recipe).then((data)=>{

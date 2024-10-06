@@ -170,6 +170,14 @@ router.get('/view-user/:id',(req,res)=>{
     adminHelper.getUserUploadedRecipes(userId)
   ])
   .then(([user,activity,recipes])=>{
+    recipes.forEach(recipes=>{
+      recipes.createdAt = new Date(recipes.createdAt).toLocaleDateString('en-US',{
+        year:'numeric',
+        month:'long',
+        day:'numeric',
+      });
+    })
+
     const limitActivity = activity.slice(0,3);
 
     const allDisplay = {user,limitActivity,recipes};
