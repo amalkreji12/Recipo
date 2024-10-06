@@ -51,18 +51,31 @@ router.post('/signup',(req,res)=>{
 
 
 router.get('/login',(req,res)=>{
-  res.render('user/login',{user:true,isLoginSignupPage: true});
+  const loginError = req.flash('loginError');
+  res.render('user/login',{user:true,isLoginSignupPage: true,loginError});
 });
 
 router.post('/login',(req,res)=>{
   recipeHelper.doLogin(req.body).then((response)=>{
-    if(response.status){
+    if(response.emailNotFound){
+      req.flash('loginError', 'No account found with this email !')
+      res.redirect('/login');
+    }else if(response.passwordIncorrect){
+      req.flash('loginError', 'Invalid password !')
+      res.redirect('/login');
+    }else if(response.status){
       req.session.user = response.user;
       req.session.user.loggedIn = true;
       res.redirect('/');
-    }else{
-      res.redirect('/login');
     }
+    // if(response.status){
+    //   req.session.user = response.user;
+    //   req.session.user.loggedIn = true;
+    //   res.redirect('/');
+    // }else{
+    //   req.flash('loginError', 'Invalid email or password')
+    //   res.redirect('/login');
+    // }
   })
 })
 
@@ -179,7 +192,8 @@ router.get('/edit-recipe/:id',verifyLogin,(req,res)=>{
 
 router.post('/update-recipe/:id',(req,res)=>{
   let recipeId = req.params.id;
-  recipeHelper.updateRecipeByUser(recipeId,req.body).then((result)=>{
+  let userId = req.session.user._id;
+  recipeHelper.updateRecipeByUser(recipeId,req.body,userId).then((result)=>{
     req.flash('successUpdate','Recipe updated successfully');
     res.redirect('/profile');
   })
@@ -187,10 +201,13 @@ router.post('/update-recipe/:id',(req,res)=>{
 
 router.get('/delete-recipe/:id',(req,res)=>{
   let recipeId = req.params.id;
-  recipeHelper.deleteRecipeByUser(recipeId).then((result)=>{
-    req.flash('deleteUpdate','Recipe deleted successfully');
-    res.redirect('/profile');
-  })
+  let userId = req.session.user._id;
+  recipeHelper.getRecipeDetails(recipeId).then((recipe)=>{
+    recipeHelper.deleteRecipeByUser(recipeId,recipe,userId).then((result)=>{
+      req.flash('deleteUpdate','Recipe deleted successfully');
+      res.redirect('/profile');
+    })
+  });
 });
 
 router.get('/change-password',verifyLogin,(req,res)=>{

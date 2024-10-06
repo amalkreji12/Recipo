@@ -31,12 +31,12 @@ module.exports = {
                         resolve(response);  
                     }else{
                         console.log('Login Failed');
-                        resolve({status:false});                      
+                        resolve({status:false,passwordIncorrect:true});                      
                     }
                 })
             }else{
                 console.log('Login Failed');
-                resolve({status:false});
+                resolve({status:false,emailNotFound:true});
             }
         })
     },
@@ -107,6 +107,19 @@ module.exports = {
             if(category){
                 db.getdb().collection(collection.RECIPE_COLLECTION).insertOne(recipe).then((data)=>{
                     resolve(data);
+                    if (data.acknowledged) {
+                        const activity = {
+                            action: 'New Recipe Added :'+recipe.name,
+                            user: 'User :'+userId,
+                            status: 'Completed',
+                            date: new Date(),
+                            UserId : new objectId(userId),
+        
+                        };
+                        db.getdb().collection(collections.ACTIVITY_COLLECTION).insertOne(activity);
+                        console.log('Category Updated');
+        
+                    }
                 });
             }else{
                 const newCategory = {
@@ -117,6 +130,19 @@ module.exports = {
                     resolve(data);
                     db.getdb().collection(collection.RECIPE_COLLECTION).insertOne(recipe).then((data)=>{
                         resolve(data);
+                        if (data.acknowledged) {
+                            const activity = {
+                                action: 'New Recipe Added :'+recipe.name,
+                                user: 'User :'+userId,
+                                status: 'Completed',
+                                date: new Date(),
+                                UserId : new objectId(userId),
+            
+                            };
+                            db.getdb().collection(collections.ACTIVITY_COLLECTION).insertOne(activity);
+                            console.log('Category Updated');
+            
+                        }
                     });
                 });
             };
@@ -140,9 +166,9 @@ module.exports = {
         })
     },
 
-    updateRecipeByUser(userId,recipeDetails){
+    updateRecipeByUser(recipeId,recipeDetails,userId){
         return new Promise(async(resolve,reject)=>{
-            await db.getdb().collection(collections.RECIPE_COLLECTION).updateOne({_id:new objectId(userId)},{
+            await db.getdb().collection(collections.RECIPE_COLLECTION).updateOne({_id:new objectId(recipeId)},{
                 $set:{
                     name:recipeDetails.name,
                     description:recipeDetails.description,
@@ -153,14 +179,40 @@ module.exports = {
                 }
             }).then((result)=>{
                 resolve(result);
+                if (result.acknowledged) {
+                    const activity = {
+                        action: 'Recipe Updated :'+recipeDetails.name,
+                        user: 'User :'+userId,
+                        status: 'Completed',
+                        date: new Date(),
+                        UserId : new objectId(userId),
+
+                    };
+                    db.getdb().collection(collections.ACTIVITY_COLLECTION).insertOne(activity);
+                    console.log('Category Updated');
+
+                }
             })
         })
     },
 
-    deleteRecipeByUser(recipeId){
+    deleteRecipeByUser(recipeId,recipe,userId){
         return new Promise(async(resolve,reject)=>{
             await db.getdb().collection(collections.RECIPE_COLLECTION).deleteOne({_id:new objectId(recipeId)}).then((result)=>{
                 resolve(result);
+                if (result.acknowledged) {
+                    const activity = {
+                        action: 'Recipe deleted :'+recipe.name,
+                        user: 'User :'+userId,
+                        status: 'Deleted',
+                        date: new Date(),
+                        UserId : new objectId(userId),
+
+                    };
+                    db.getdb().collection(collections.ACTIVITY_COLLECTION).insertOne(activity);
+                    console.log('Category Updated');
+
+                }
             })
         })
     },
@@ -198,7 +250,8 @@ module.exports = {
         return new Promise(async(resolve,reject)=>{
             db.getdb().collection(collections.USER_COLLECTION).updateOne({_id:new objectId(userId)},{
                 $set:{
-                    username:userName.username
+                    username:userName.username,
+                    updatedAt:new Date()
                 }
             }).then((result)=>{
                 resolve(result);
@@ -210,7 +263,8 @@ module.exports = {
         return new Promise(async(resolve,reject)=>{
             db.getdb().collection(collections.USER_COLLECTION).updateOne({_id:new objectId(userId)},{
                 $set:{
-                    email:email.email
+                    email:email.email,
+                    updatedAt:new Date()
                 }
             }).then((result)=>{
                 resolve(result);
