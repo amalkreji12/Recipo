@@ -194,6 +194,30 @@ module.exports = {
         })
     },
 
+    updateUserName(userId,userName){
+        return new Promise(async(resolve,reject)=>{
+            db.getdb().collection(collections.USER_COLLECTION).updateOne({_id:new objectId(userId)},{
+                $set:{
+                    username:userName.username
+                }
+            }).then((result)=>{
+                resolve(result);
+            })
+        })
+    },
+
+    updateEmail(userId,email){
+        return new Promise(async(resolve,reject)=>{
+            db.getdb().collection(collections.USER_COLLECTION).updateOne({_id:new objectId(userId)},{
+                $set:{
+                    email:email.email
+                }
+            }).then((result)=>{
+                resolve(result);
+            })
+        })
+    }
+
 
 
 }

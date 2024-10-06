@@ -155,7 +155,6 @@ router.get('/profile',verifyLogin,async(req,res)=>{
 
   const deleteMessage = req.flash('deleteUpdate')[0] || null;
   const updateMessage = req.flash('successUpdate')[0] || null;
-  const passwordUpdateMessage = req.flash('Passwordsuccess')[0] || null;
 
   recipeHelper.getUserDetails(userId).then((userDetails)=>{
     const dateFormatted = new Date(userDetails.createdAt).toLocaleDateString('en-US',{
@@ -165,7 +164,7 @@ router.get('/profile',verifyLogin,async(req,res)=>{
     });
     userDetails.createdAt = dateFormatted;
     recipeHelper.getUserUploadedRecipe(userId).then((recipes)=>{
-      res.render('user/profile',{user,userDetails,recipes,deleteMessage,updateMessage,passwordUpdateMessage});
+      res.render('user/profile',{user,userDetails,recipes,deleteMessage,updateMessage});
     });
   });
 });
@@ -206,13 +205,35 @@ router.post('/change-password',(req,res)=>{
     if(result.status){
       console.log(result);
       req.flash('Passwordsuccess','Password changed successfully');
-      res.redirect('/profile');
+      res.redirect('/settings');
     }else{
       req.session.passwordError = 'Old password is incorrect';
       res.redirect('/change-password');
     }
-    
-    
+  })
+});
+
+router.get('/settings',verifyLogin,(req,res)=>{
+  const passwordUpdateMessage = req.flash('Passwordsuccess')[0] || null;
+  const usernameUpdateMessage = req.flash('usernameUpdatesuccess')[0] || null;
+  const emailUpdateMessage = req.flash('emailUpdatesuccess')[0] || null;
+  const alertMessage = {passwordUpdateMessage,usernameUpdateMessage,emailUpdateMessage}
+  res.render('user/settings',{user:req.session.user,alertMessage});
+});
+
+router.post('/update-username',(req,res)=>{
+  let userId = req.session.user._id;
+  recipeHelper.updateUserName(userId,req.body).then((result)=>{
+    req.flash('usernameUpdatesuccess','Username updated successfully');
+    res.redirect('/settings');
+  });  
+});
+
+router.post('/update-email',(req,res)=>{
+  let userId = req.session.user._id;
+  recipeHelper.updateEmail(userId,req.body).then((result)=>{
+    req.flash('emailUpdatesuccess','Email updated successfully');
+    res.redirect('/settings');
   })
 })
 

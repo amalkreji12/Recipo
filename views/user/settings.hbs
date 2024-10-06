@@ -1,0 +1,126 @@
+<style>
+    body {
+        background-color: #f3f3f3;
+    }
+
+    .settings-container {
+        margin-top: 50px;
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        border-bottom: none;
+        padding: 1.25rem;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .btn-primary,
+    .btn-danger {
+        transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .btn-primary:hover,
+    .btn-danger:hover {
+        transform: translateY(-2px);
+    }
+
+    .modal-header {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
+
+<body>
+
+    <div class="container settings-container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                {{#if alertMessage.passwordUpdateMessage}}
+                <div class="alert alert-success mt-2" id='success-alert' role="alert">
+                    {{alertMessage.passwordUpdateMessage}}
+                </div>
+                {{/if}}
+
+                {{#if alertMessage.usernameUpdateMessage}}
+                <div class="alert alert-success mt-2" id='success-alert' role="alert">
+                    {{alertMessage.usernameUpdateMessage}}
+                </div>
+                {{/if}}
+
+                {{#if alertMessage.emailUpdateMessage}}
+                <div class="alert alert-success mt-2" id='success-alert' role="alert">
+                    {{alertMessage.emailUpdateMessage}}
+                </div>
+                {{/if}}
+
+
+                <div class="card">
+                    <div class="card-header">
+                        Account Settings
+                    </div>
+                    <div class="card-body">
+                        <!-- Change Username Form -->
+                        <form action="/update-username" method="post" class="mb-4" enctype="multipart/form-data">
+                            <h5>Change Username</h5>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">New Username</label>
+                                <input type="text" class="form-control" name="username" id="username"
+                                    placeholder="Enter new username" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Update Username</button>
+                        </form>
+
+                        <hr>
+
+                        <!-- Change Password Button -->
+                        <div class="mb-3">
+                            <label class="form-label">Change Password</label>
+                            <a href="/change-password" class="btn btn-primary">Change Password</a>
+                        </div>
+
+                        <hr>
+
+                        <!-- Update Email Form -->
+                        <form action="/update-email" method="post" class="mb-4">
+                            <h5>Update Email</h5>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">New Email Address</label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                    placeholder="Enter new email" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Update Email</button>
+                        </form>
+
+                        <hr>
+
+                        <!-- Delete Account Form -->
+                        <form action="/delete-account" method="post">
+                            <h5>Delete Account</h5>
+                            <p class="text-danger">Once you delete your account, there is no going back. Please be
+                                certain.</p>
+                            <button type="submit" class="btn btn-danger w-100">Delete Account</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+<script>
+    hideAlert('success-alert',3000)
+  </script>
