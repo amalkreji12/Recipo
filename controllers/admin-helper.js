@@ -1,6 +1,7 @@
 var db = require('../config/connection');
 var collection = require('../config/collections');
 const collections = require('../config/collections');
+const { reject } = require('bcrypt/promises');
 var objectId = require("mongodb").ObjectId;
 
 module.exports = {
@@ -85,14 +86,14 @@ module.exports = {
 
     deleteCategory(categoryId) {
         return new Promise(async (resolve, reject) => {
-            const category =await db.getdb().collection(collections.CATEGORY_COLLECTION).findOne({_id:new objectId(categoryId)});
+            const category = await db.getdb().collection(collections.CATEGORY_COLLECTION).findOne({ _id: new objectId(categoryId) });
 
             await db.getdb().collection(collections.CATEGORY_COLLECTION).deleteOne({ _id: new objectId(categoryId) }).then((result) => {
                 console.log(result);
                 resolve(result);
                 if (result.acknowledged) {
                     const activity = {
-                        action: 'Category Deleted :'+category.name,   
+                        action: 'Category Deleted :' + category.name,
                         user: 'Admin',
                         status: 'Deleted',
                         date: new Date()
@@ -134,7 +135,7 @@ module.exports = {
                 resolve(result);
                 if (result.acknowledged) {
                     const activity = {
-                        action: 'Category Updated :'+categoryDetails.name,
+                        action: 'Category Updated :' + categoryDetails.name,
                         user: 'Admin',
                         status: 'Completed',
                         date: new Date()
@@ -151,13 +152,13 @@ module.exports = {
 
     deleteRecipe(recipeId) {
         return new Promise(async (resolve, reject) => {
-            const recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).findOne({_id:new objectId(recipeId)});
+            const recipe = await db.getdb().collection(collections.RECIPE_COLLECTION).findOne({ _id: new objectId(recipeId) });
 
             await db.getdb().collection(collections.RECIPE_COLLECTION).deleteOne({ _id: new objectId(recipeId) }).then((result) => {
                 resolve(result);
                 if (result.acknowledged) {
                     const activity = {
-                        action: 'Recipe Deleted :'+recipe.name,
+                        action: 'Recipe Deleted :' + recipe.name,
                         user: 'Admin',
                         status: 'Deleted',
                         date: new Date()
@@ -215,13 +216,36 @@ module.exports = {
         })
     },
 
-    getAllUsers(){
-        return new Promise(async(resolve,reject)=>{
-            db.getdb().collection(collections.USER_COLLECTION).find().toArray().then((users)=>{
+    getAllUsers() {
+        return new Promise(async (resolve, reject) => {
+            db.getdb().collection(collections.USER_COLLECTION).find().toArray().then((users) => {
                 resolve(users);
             })
         })
     },
+
+    getUserById(userId) {
+        return new Promise(async (resolve, reject) => {
+            db.getdb().collection(collections.USER_COLLECTION).findOne({ _id: new objectId(userId) }).then((user) => {
+                resolve(user);
+            })
+        })
+    },
+
+    getUserActivities(userId) {
+        return new Promise(async (resolve, reject) => {
+            let activites = await db.getdb().collection(collections.ACTIVITY_COLLECTION).find({UserId: new objectId(userId)}).sort({date:-1}).toArray();
+            resolve(activites);
+        })
+    },
+
+    getUserUploadedRecipes(userId){
+        return new Promise(async(resolve,reject)=>{
+            db.getdb().collection(collections.RECIPE_COLLECTION).find({userId:new objectId(userId)}).toArray().then((recipes)=>{
+                resolve(recipes);
+            })
+        })
+    }
 
 
 

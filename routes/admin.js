@@ -158,6 +158,34 @@ router.get('/all-users',(req,res)=>{
     res.render('admin/all-users',{admin:true,users})
   })
   
+});
+
+router.get('/view-user/:id',(req,res)=>{
+  let userId = req.params.id;
+  console.log(userId);
+  
+  Promise.all([
+    adminHelper.getUserById(userId),
+    adminHelper.getUserActivities(userId),
+    adminHelper.getUserUploadedRecipes(userId)
+  ])
+  .then(([user,activity,recipes])=>{
+    const limitActivity = activity.slice(0,3);
+
+    const allDisplay = {user,limitActivity,recipes};
+    res.render('admin/view-user',{admin:true,allDisplay});
+  });
+});
+
+router.get('/activities/:id',(req,res)=>{
+  let userId = req.params.id;
+  adminHelper.getUserActivities(userId).then((activity,user)=>{
+    adminHelper.getUserById(userId).then((user)=>{
+      res.render('admin/user-all-activites',{admin:true,activity,user});
+    })
+    
+  })
+  
 })
 
 module.exports = router;

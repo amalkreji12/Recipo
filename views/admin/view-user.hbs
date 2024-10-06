@@ -1,0 +1,105 @@
+
+
+    <div class="container mt-5">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="mb-4">View User</h2>
+            <a href="/user-management" class="btn btn-secondary">Back to User Management</a>
+        </div>
+
+        <!-- User Details -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">User Information</h4>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>User ID:</strong> {{allDisplay.user._id}}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Username:</strong> {{allDisplay.user.username}}</p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Email:</strong> {{allDisplay.user.email}}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Role:</strong> User</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <p><strong>Joined On:</strong> {{allDisplay.user.createdAt}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Activities with Button to View All -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">Recent Activities</h4>
+                {{#if allDisplay.limitActivity.length}}
+                    <ul class="list-group">
+                        {{#each allDisplay.limitActivity}}
+                        <li class="list-group-item">
+                            <p><strong>Activity:</strong> {{this.action}}</p>
+                            <p><strong>Date:</strong> {{this.date}}</p>
+                        </li>
+                        {{/each}}
+                    </ul>
+                <a href="/admin/activities/{{allDisplay.user._id}}" class="btn btn-info mt-2">View All Activities</a>
+                {{else}}
+                    <p>No recent activities</p>
+                {{/if}}
+            </div>
+        </div>
+
+        <!-- User Uploaded Recipes (same as before) -->
+        <!-- ... -->
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Uploaded Recipes</h4>
+                {{#if allDisplay.recipes.length}}
+                    <div class="table-responsive">
+                        <table class="table table-hover table-striped">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Recipe Name</th>
+                                    <th>Category</th>
+                                    <th>Date Uploaded</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each allDisplay.recipes}}
+                                <tr>
+                                    <td>{{this._id}}</td>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.category}}</td>
+                                    <td>{{this.uploadedAt}}</td>
+                                    <td>
+                                        <a href="/admin/recipe/{{this._id}}" class="btn btn-sm btn-info">View</a>
+                                        <a href="/delete-recipe/{{this._id}}" class="btn btn-sm btn-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                {{else}}
+                    <p>No recipes uploaded</p>
+                {{/if}}
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+    
