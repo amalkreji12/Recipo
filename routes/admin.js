@@ -190,10 +190,14 @@ router.get('/activities/:id',(req,res)=>{
   adminHelper.getUserActivities(userId).then((activity,user)=>{
     adminHelper.getUserById(userId).then((user)=>{
       res.render('admin/user-all-activites',{admin:true,activity,user});
-    })
-    
+    })  
   })
-  
-})
+});
+
+router.get('/delete-user/:id',(req,res)=>{
+  adminHelper.deleteUserAccountByAdmin(req.params.id).then((result)=>{
+    res.redirect('/admin/all-users');
+  });
+});
 
 module.exports = router;

@@ -271,6 +271,14 @@ module.exports = {
                 resolve(result);
             })
         })
+    },
+
+    deleteAccount(userId){
+        return new Promise(async(resolve,reject)=>{
+            db.getdb().collection(collections.USER_COLLECTION).deleteOne({_id:new objectId(userId)}).then((result)=>{
+                resolve(result);
+            })
+        })
     }
 
 

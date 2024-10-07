@@ -252,6 +252,16 @@ router.post('/update-email',(req,res)=>{
     req.flash('emailUpdatesuccess','Email updated successfully');
     res.redirect('/settings');
   })
+});
+
+router.post('/delete-account',(req,res)=>{
+  let userId = req.session.user._id;
+  recipeHelper.deleteAccount(userId).then((result)=>{
+    console.log(result);
+    
+    req.session.destroy();
+    res.redirect('/');
+  })
 })
 
 
