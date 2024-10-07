@@ -11,9 +11,26 @@ module.exports = {
         return new Promise(async(resolve,reject)=>{
             userData.password = await bcrypt.hash(userData.password,10);
             userData.createdAt = new Date();
-            db.getdb().collection(collections.USER_COLLECTION).insertOne(userData).then((user)=>{
-                resolve(user);
-            })
+            let findUser = await db.getdb().collection(collections.USER_COLLECTION).findOne({email:userData.email});
+            if(findUser){
+                console.log('User Already Exists');
+                resolve({status:false,userExists:true});
+            }else{
+                db.getdb().collection(collections.USER_COLLECTION).insertOne(userData).then((user)=>{
+                    resolve(user);
+                    if (user.acknowledged) {
+                        const activity = {
+                            action: 'New account created :'+userData.username,
+                            user: 'User :'+user.insertedId,
+                            status: 'Completed',
+                            date: new Date(),
+                        };
+                        db.getdb().collection(collections.ACTIVITY_COLLECTION).insertOne(activity);
+                        console.log('Category Updated');
+        
+                    }
+                })
+            } 
         })
     },
 

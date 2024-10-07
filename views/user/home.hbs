@@ -1,12 +1,21 @@
+{{#if signupSuccess}}
+<div class="alert alert-success mt-2 text-center" id='success-alert' role="alert">
+    {{signupSuccess}}
+</div>
+{{/if}}
+
 <div class="row flex-lg-row-reverse align-items-center g-5 py-4 mb-4">
     <div class="col-12 col-lg-6">
-        <img src="/images/food.svg" width="300" height=auto class="d-block mx-lg-auto img-fluid rounded" loading="lazy" alt="Food Image">
+        <img src="/images/food.svg" width="300" height=auto class="d-block mx-lg-auto img-fluid rounded" loading="lazy"
+            alt="Food Image">
     </div>
 
     <div class="col-12 col-lg-6">
         <h1 class="display-5 fw-bold mb-3">Delicious Recipes Await You!</h1>
-        <p class="lead"> Discover, cook, and enjoy thousands of delicious recipes crafted for all skill levels. Whether you're a beginner or a seasoned chef, 
-        we have everything you need to whip up the perfect meal. Dive into our collection and bring your kitchen to life with flavorful creations.
+        <p class="lead"> Discover, cook, and enjoy thousands of delicious recipes crafted for all skill levels. Whether
+            you're a beginner or a seasoned chef,
+            we have everything you need to whip up the perfect meal. Dive into our collection and bring your kitchen to
+            life with flavorful creations.
         </p>
     </div>
 
@@ -27,9 +36,9 @@
             <div class="pt-1">{{this.name}}</div>
         </a>
         {{/each}}
-  
 
-        
+
+
 
 
         <a href="/explore-all-category" class="col text-center category__link">
@@ -66,63 +75,63 @@
 
 
     <section class="pb-4 pt-4"></section>
-        <div class="d-flex mb-2 align-items-center">
-            <h2>Indian Recipes</h2>
-            <a href="/category/Indian" class="ms-auto">View More</a>
-        </div>
+    <div class="d-flex mb-2 align-items-center">
+        <h2>Indian Recipes</h2>
+        <a href="/category/Indian" class="ms-auto">View More</a>
+    </div>
 
-        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
 
-            {{#each food.indianlimit}}
-            <a href="/recipe/{{this._id}}" class="col text-center category__link">
-                <div class="category__img latest__img shadow">
-                    <img src="/uploads/recipes/{{this.name}}.png" alt="Indian Food" loading="lazy" style="height:100%">
-                </div>
-                <div class="pt-1">{{this.name}}</div>
-            </a>
-            {{/each}}
+        {{#each food.indianlimit}}
+        <a href="/recipe/{{this._id}}" class="col text-center category__link">
+            <div class="category__img latest__img shadow">
+                <img src="/uploads/recipes/{{this.name}}.png" alt="Indian Food" loading="lazy" style="height:100%">
+            </div>
+            <div class="pt-1">{{this.name}}</div>
+        </a>
+        {{/each}}
 
-        </div>
+    </div>
     </section>
 
     <section class="pb-4 pt-4"></section>
-        <div class="d-flex mb-2 align-items-center">
-            <h2>American Recipes</h2>
-            <a href="/category/American" class="ms-auto">View More</a>
-        </div>
+    <div class="d-flex mb-2 align-items-center">
+        <h2>American Recipes</h2>
+        <a href="/category/American" class="ms-auto">View More</a>
+    </div>
 
-        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
 
-            {{#each food.americanlimit}}
-            <a href="/recipe/{{this._id}}" class="col text-center category__link">
-                <div class="category__img latest__img shadow">
-                    <img src="/uploads/recipes/{{this.name}}.png" alt="Indian Food" loading="lazy" style="height:100%">
-                </div>
-                <div class="pt-1">{{this.name}}</div>
-            </a>
-            {{/each}}
+        {{#each food.americanlimit}}
+        <a href="/recipe/{{this._id}}" class="col text-center category__link">
+            <div class="category__img latest__img shadow">
+                <img src="/uploads/recipes/{{this.name}}.png" alt="Indian Food" loading="lazy" style="height:100%">
+            </div>
+            <div class="pt-1">{{this.name}}</div>
+        </a>
+        {{/each}}
 
-        </div>
+    </div>
     </section>
 
     <section class="pb-4 pt-4"></section>
-        <div class="d-flex mb-2 align-items-center">
-            <h2>Italian Recipes</h2>
-            <a href="/category/Italian" class="ms-auto">View More</a>
-        </div>
+    <div class="d-flex mb-2 align-items-center">
+        <h2>Italian Recipes</h2>
+        <a href="/category/Italian" class="ms-auto">View More</a>
+    </div>
 
-        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+    <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
 
-            {{#each food.italianlimit}}
-            <a href="/recipe/{{this._id}}" class="col text-center category__link">
-                <div class="category__img latest__img shadow">
-                    <img src="/uploads/recipes/{{this.name}}.png" alt="Indian Food" loading="lazy" style="height:100%">
-                </div>
-                <div class="pt-1">{{this.name}}</div>
-            </a>
-            {{/each}}
+        {{#each food.italianlimit}}
+        <a href="/recipe/{{this._id}}" class="col text-center category__link">
+            <div class="category__img latest__img shadow">
+                <img src="/uploads/recipes/{{this.name}}.png" alt="Indian Food" loading="lazy" style="height:100%">
+            </div>
+            <div class="pt-1">{{this.name}}</div>
+        </a>
+        {{/each}}
 
-        </div>
+    </div>
     </section>
 
 
@@ -131,12 +140,14 @@
 <submit>
 
     <section class="px-4 py-5 my-5 text-center">
-        
-        <img src="/images/submit.png" class="d-block mx-auto mb-4 img-fluid rounded" alt="Submit your recipe" width="566" height="208" loading="lazy">
+
+        <img src="/images/submit.png" class="d-block mx-auto mb-4 img-fluid rounded" alt="Submit your recipe"
+            width="566" height="208" loading="lazy">
         <h1 class="display-5 fw-bold">Submit your recipe</h1>
 
         <div class="col-lg-6 mx-auto">
-            <p class="lead mb-4">Discover, cook, and enjoy thousands of delicious recipes crafted for all skill levels.</p>
+            <p class="lead mb-4">Discover, cook, and enjoy thousands of delicious recipes crafted for all skill levels.
+            </p>
         </div>
 
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
@@ -147,3 +158,7 @@
 
 
 </submit>
+
+<script>
+    hideAlert('success-alert',2000)
+</script>

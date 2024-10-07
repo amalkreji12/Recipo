@@ -30,20 +30,28 @@ router.get('/',  function(req, res,next) {
     const italianlimit = italian.slice(0,5);
     
     const food = {limitCategory,limitlatest,indianlimit,americanlimit,italianlimit};
-    
-    res.render('user/home',{user,food});
+    const signupSuccess= req.flash('signupSuccess')
+    res.render('user/home',{user,food,signupSuccess});
   })  
 });
 
 router.get('/signup',(req,res)=>{
-  res.render('user/signup',{user:true,isLoginSignupPage: true});
+  const signupError = req.flash('signupError')
+  res.render('user/signup',{user:true,isLoginSignupPage: true,signupError});
 })
 
 router.post('/signup',(req,res)=>{
   recipeHelper.doSignUp(req.body).then((userData)=>{
-    req.session.user = userData;
-    req.session.user.loggedIn = true;
-    res.redirect('/')
+    if(userData.userExists){
+      req.flash('signupError', 'An account found with this email !')
+      res.redirect('/signup');
+    }else{
+      req.flash('signupSuccess', 'Account created successfully !')
+      req.session.user = userData;
+      req.session.user.loggedIn = true;
+      res.redirect('/');
+      
+    }
   })
 })
 
@@ -68,14 +76,6 @@ router.post('/login',(req,res)=>{
       req.session.user.loggedIn = true;
       res.redirect('/');
     }
-    // if(response.status){
-    //   req.session.user = response.user;
-    //   req.session.user.loggedIn = true;
-    //   res.redirect('/');
-    // }else{
-    //   req.flash('loginError', 'Invalid email or password')
-    //   res.redirect('/login');
-    // }
   })
 })
 
